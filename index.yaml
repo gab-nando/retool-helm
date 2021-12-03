@@ -1,3 +1,21 @@
 apiVersion: v1
-entries: {}
-generated: "2021-12-03T10:33:23.953784516Z"
+entries:
+  retool:
+  - apiVersion: v2
+    created: "2021-12-03T10:36:18.030433584Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.2.6
+    description: A Helm chart for Kubernetes
+    digest: 334c076583e2d563d20056a39a8d0874fad741c3e0ff24066328cfbdc191a75a
+    maintainers:
+    - email: engineering+helm@retool.com
+      name: Retool Engineering
+    name: retool
+    type: application
+    urls:
+    - retool/retool-4.7.0.tgz
+    version: 4.7.0
+generated: "2021-12-03T10:36:18.024216486Z"
