@@ -1,0 +1,53 @@
+name: Release Charts
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - GP_publish
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      HELM_CHARTS_SOURCE: "./"
+      GITHUB_PAGES_BRANCH: "gh-pages"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: "gh-pages"
+          fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.6.3
+
+      - name: Packaging hlms and push to gh-pages
+        run: |
+          set -exu
+
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+          git merge origin/main
+
+          echo '>> Building charts...'
+
+          find "$HELM_CHARTS_SOURCE" -mindepth 2 -maxdepth 2 -type f -iname Chart.yaml | \
+          while read chartyaml; do
+            chart=$(dirname $chartyaml)
+            helm dependency update "$chart"
+            helm lint "$chart"
+            chart_name="$(basename "$chart")"
+            mkdir -p "$chart_name"
+            helm package -d "$chart_name" "$chart"
+          done
+          helm repo index .
+
+          git status
+          git add .
+          git commit -m "Published by GH actions"
+          git push
