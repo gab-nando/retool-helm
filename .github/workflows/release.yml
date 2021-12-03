@@ -32,7 +32,7 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-          git merge origin/main
+          git merge origin/GP_publish
 
           echo '>> Building charts...'
 
