@@ -10,7 +10,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     env:
-      HELM_CHARTS_SOURCE: "./"
+      HELM_CHARTS_SOURCE: "./charts"
       GITHUB_PAGES_BRANCH: "gh-pages"
 
     steps:
